@@ -1,0 +1,14 @@
+.round { 
+    border-radius: 5px; 
+}
+.remove-space {
+    margin-bottom: 0;
+    
+}
+.p3-half {
+    border-left: 3px solid black;
+}
+
+.text-flow2 {
+    font-size: 1.1rem;
+}
