@@ -138,8 +138,8 @@ function loadSU() {
             i = i + 12;
         }
         JSON.stringify(ss);
-        console.table(ss);
-        console.table(sl);
+        // console.table(ss);
+        // console.table(sl);
       
         removeAllChildNodes(p2);
         removeAllChildNodes(p3);
