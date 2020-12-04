@@ -159,7 +159,7 @@ function loadSU() {
     }
     //////////////////////////  refresh   //////////////////////////////////
     clearTimeout(timer);
-    timer = setTimeout(loadSU, 1*60000);
+    timer = setTimeout(loadSU, 1 * 60000);//set to 1 min
     
 };
 
