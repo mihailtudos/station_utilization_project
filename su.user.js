@@ -39,9 +39,10 @@ function createStationCard(sNumber, sType, floor, sSide){
     node.appendChild(secondDiv);                             
     document.getElementById(floor).appendChild(node);  
 }
-const ar_location = getArSite();
-let dataUrl = `https://roboscout.amazon.com/view_plot_data/?sites=(${ar_location})&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout`
+
+let dataUrl = "https://roboscout.amazon.com/view_plot_data/?sites=(BRS1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout"
 const apiURL = dataUrl;
+const ar_location = document.getElementById("ar-location");
 const p2 = document.getElementById('p2');
 const p3 = document.getElementById('p3');
 
