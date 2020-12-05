@@ -20,32 +20,28 @@ function removeAllChildNodes(parent) {
         parent.removeChild(parent.firstChild);
     }
 }
-
+// creates a station badge
 function createStationCard(sNumber, sType, floor, sSide){
     let node = document.createElement("div");               
     node.classList.add("col", "s6", "m2", "center");
-                    let secondDiv = document.createElement("div");
-                    secondDiv.classList.add("z-depth-3", "hoverable", "round", "green", "accent-3", sSide);
-                    let para = document.createElement("p");
-                    para.classList.add("flow-text");
-                    let textnode = document.createTextNode(sNumber); 
-                    para.appendChild(textnode);        // Create a text node
-                    secondDiv.appendChild(para);
-                    let station_type_p = document.createElement("p");
-                    station_type_p.classList.add("flow-text2");
-                    textnode = document.createTextNode(sType); 
-                    station_type_p.appendChild(textnode);        // Create a text node
-                    secondDiv.appendChild(station_type_p);
-                    node.appendChild(secondDiv);                             // Append the text to <li>
-                    document.getElementById(floor).appendChild(node);     // Append <li> to <ul> with id="myList" 
+    let secondDiv = document.createElement("div");
+    secondDiv.classList.add("z-depth-3", "hoverable", "round", "green", "accent-3", sSide);
+    let para = document.createElement("p");
+    para.classList.add("flow-text");
+    let textnode = document.createTextNode(sNumber); 
+    para.appendChild(textnode);        
+    secondDiv.appendChild(para);
+    let station_type_p = document.createElement("p");
+    station_type_p.classList.add("flow-text2");
+    textnode = document.createTextNode(sType); 
+    station_type_p.appendChild(textnode);        
+    secondDiv.appendChild(station_type_p);
+    node.appendChild(secondDiv);                             
+    document.getElementById(floor).appendChild(node);  
 }
-var timer;
-
-let dataUrl = "https://roboscout.amazon.com/view_plot_data/?sites=(BRS1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout"
-
-var apiURL = dataUrl + Math.random();
-
-
+const ar_location = getArSite();
+let dataUrl = `https://roboscout.amazon.com/view_plot_data/?sites=(${ar_location})&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout`
+const apiURL = dataUrl;
 const p2 = document.getElementById('p2');
 const p3 = document.getElementById('p3');
 
@@ -66,13 +62,12 @@ function loadSU() {
         }
 
         var st = rspObj.response;
-        
+       
         var old = JSON.stringify(st).replace(/null/g, '"#"'); //convert to JSON string
         st = JSON.parse(old); //convert back to array
-        
+        ar_location.textContent = `at ${st.data[1].yValue}`;
         var dataSize = st.data.length;
         var ss = [];
-        var sl = [];
         var i = 0;
         
         /* JSON structure:
@@ -132,15 +127,14 @@ function loadSU() {
             }
             var sdata = { sfloor, snumber, sside, slogin, saa, stype, sopmode, smode, sversion, sidle, stimein };
             ss.push(sdata);
-            var slstationint=parseInt(snumber);
-            var sldata = {slstationint,sfloor, snumber, sside, slogin, saa, stype, sopmode, smode, sversion, sidle, stimein,stask };
-            sl.push(sldata);
+            // var slstationint=parseInt(snumber);
+            // var sldata = {slstationint,sfloor, snumber, sside, slogin, saa, stype, sopmode, smode, sversion, sidle, stimein,stask };
+            // sl.push(sldata);
             i = i + 12;
         }
         JSON.stringify(ss);
         // console.table(ss);
         // console.table(sl);
-      
         removeAllChildNodes(p2);
         removeAllChildNodes(p3);
         for (var i = 0, len = ss.length; i < len; i++) {
@@ -152,15 +146,15 @@ function loadSU() {
                 }
             }
         }
-      
     }
     function reportAJAX_Error(rspObj) {
-        console.error(` scrpt => Error ${rspObj.status}!  ${rspObj.statusText}`);
+        console.error(`scrpt => Error ${rspObj.status}!  ${rspObj.statusText} contact @tudosm`);
+        alert("There seem to be a proble, please contact @tudosm")
     }
-    //////////////////////////  refresh   //////////////////////////////////
+    // refreshing rate se tot 1 min
+    var timer;
     clearTimeout(timer);
     timer = setTimeout(loadSU, 1 * 60000);//set to 1 min
-    
 };
 
 var myDiv = document.querySelector("#loadSU");
