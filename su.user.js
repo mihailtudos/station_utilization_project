@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name         Su v1
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      1.0
+// @description  This project uses the roboscout API to fetch real time station status (AR sites), manipulates received data and displays available station in a user friendly manner
 // @author       Mihail Tudos
 // @require      http://code.jquery.com/jquery-3.5.1.min.js
 
