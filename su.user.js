@@ -2,14 +2,13 @@
 // @name         Su v1
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  try to take over the world!
 // @author       Mihail Tudos
 // @require      http://code.jquery.com/jquery-3.5.1.min.js
 
 // @include      *index*.html
 // @match        *index*.html
 
-// @grant        GM_xmlhttpRequest
+// @grant        GM.xmlHttpRequest
 // @run-at       document-end
 // ==/UserScript==
 /* global $ */
@@ -20,12 +19,13 @@ function removeAllChildNodes(parent) {
         parent.removeChild(parent.firstChild);
     }
 }
+
 // creates a station badge
-function createStationCard(sNumber, sType, floor, sSide){
+function createStationCard(sNumber, sType, floor){
     let node = document.createElement("div");               
     node.classList.add("col", "s6", "m2", "center");
     let secondDiv = document.createElement("div");
-    secondDiv.classList.add("z-depth-3", "hoverable", "round", "green", "accent-3", sSide);
+    secondDiv.classList.add("z-depth-3", "hoverable", "round", "green", "accent-3");
     let para = document.createElement("p");
     para.classList.add("flow-text");
     let textnode = document.createTextNode(sNumber); 
@@ -40,16 +40,28 @@ function createStationCard(sNumber, sType, floor, sSide){
     document.getElementById(floor).appendChild(node);  
 }
 
-let dataUrl = "https://roboscout.amazon.com/view_plot_data/?sites=(BRS1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout"
-const apiURL = dataUrl;
-const ar_location = document.getElementById("ar-location");
+//gets the link
+function getArLink(ar_id) {
+    if(ar_id == "BRS1"){
+        return "https://roboscout.amazon.com/view_plot_data/?sites=(BRS1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
+    } else if(ar_id == 'EMA1'){
+        return "https://roboscout.amazon.com/view_plot_data/?sites=(EMA1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
+    }else if(ar_id == 'EMA2'){
+        return "https://roboscout.amazon.com/view_plot_data/?sites=(EMA2)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
+    } else if(ar_id == 'LTN4'){
+        return "https://roboscout.amazon.com/view_plot_data/?sites=(LTN4)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
+    } 
+}
+
+
+const apiURL = getArLink(getArSite());
 const p2 = document.getElementById('p2');
 const p3 = document.getElementById('p3');
 
 function loadSU() {
-    GM_xmlhttpRequest({
+    GM.xmlHttpRequest({
         method: "GET",
-        url: apiURL,
+        url: getArLink(getArSite()),
         responseType: "json",
         onload: processJSON_Response,
         onabort: reportAJAX_Error,
@@ -66,54 +78,14 @@ function loadSU() {
        
         var old = JSON.stringify(st).replace(/null/g, '"#"'); //convert to JSON string
         st = JSON.parse(old); //convert back to array
-        ar_location.textContent = `at ${st.data[1].yValue}`;
+        document.getElementById("ar-location").textContent = `at ${st.data[1].yValue}`;
+        document.getElementById('fc-id').textContent = st.data[1].yValue;
         var dataSize = st.data.length;
         var ss = [];
         var i = 0;
-        
-        /* JSON structure:
-            sfloor -> st.data[i + 2].yValue -> the floor eg. paKivaA02
-            snumber  -> st.data[i + 3].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '').trim() -> the station e.g. 2105
-            slogin -> st.data[i + 4].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '') -> user login e.g. phrichie
-            saa -> st.data[i + 5].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '') -> station type e.g Nike, ARSAW
-            stype -> st.data[i + 6].yValue -> station type -> current task 
-        */
         while (i < dataSize) {
             var sfloor = st.data[i + 2].yValue;
             var snumber = st.data[i + 3].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '').trim();
-            var sside;
-            
-            if(snumber.substring(0,2)=="11"){
-                sside="P1N";
-            }
-            if(snumber.substring(0,2)=="12"){
-                sside="P1W";
-            }
-            if(snumber.substring(0,2)=="21"){
-                sside="P2N";
-            }
-            if(snumber.substring(0,2)=="22"){
-                sside="P2W";
-            }
-            if(snumber.substring(0,2)=="23"){
-                sside="P2S";
-            }
-            if(snumber.substring(0,2)=="24"){
-                sside="P2E";
-            }
-            if(snumber.substring(0,2)=="31"){
-                sside="P3N";
-            }
-            if(snumber.substring(0,2)=="32"){
-                sside="P3W";
-            }
-            if(snumber.substring(0,2)=="33"){
-                sside="P3S";
-            }
-            if(snumber.substring(0,2)=="34"){
-                sside="P3E";
-            }
-
             var slogin = st.data[i + 4].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '');
             var saa = st.data[i + 5].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '');
             var stype = st.data[i + 6].yValue;
@@ -126,11 +98,8 @@ function loadSU() {
             if (sversion.includes("IDS")) {
                 stype = "Nike";
             }
-            var sdata = { sfloor, snumber, sside, slogin, saa, stype, sopmode, smode, sversion, sidle, stimein };
+            var sdata = { sfloor, snumber, slogin, saa, stype, sopmode, smode, sversion, sidle, stimein };
             ss.push(sdata);
-            // var slstationint=parseInt(snumber);
-            // var sldata = {slstationint,sfloor, snumber, sside, slogin, saa, stype, sopmode, smode, sversion, sidle, stimein,stask };
-            // sl.push(sldata);
             i = i + 12;
         }
         JSON.stringify(ss);
@@ -141,9 +110,9 @@ function loadSU() {
         for (var i = 0, len = ss.length; i < len; i++) {
             if(ss[i].saa == 'AVAILABLE' && ss[i].snumber != 2383 && ss[i].snumber != 3383) {
                 if(ss[i].snumber < 3000 ) {
-                    createStationCard(ss[i].snumber, ss[i].stype, "p2", ss[i].sside);
+                    createStationCard(ss[i].snumber, ss[i].stype, "p2");
                 } else {
-                    createStationCard(ss[i].snumber, ss[i].stype, "p3", ss[i].sside);
+                    createStationCard(ss[i].snumber, ss[i].stype, "p3");
                 }
             }
         }

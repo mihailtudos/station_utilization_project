@@ -19,9 +19,31 @@
       <link rel="stylesheet" href="css/styles.css">    
     </head>
     <body>
-        <div class="">
-            <div class="intro center">
-                <h1>Free Stations <span id="ar-location"></span></h1><sup class="green-text"><strong>by tudosm</strong></sup>
+        <header>
+            <!-- Dropdown Structure -->
+        <ul id="dropdown1" class="dropdown-content ">
+            <li><a onclick="setLocalArId('BRS1')" href="#">BRS1</a></li>
+            <li><a onclick="setLocalArId('EMA1')" href="#">EMA1</a></li>
+            <li class="divider"></li>
+            <li><a onclick="setLocalArId('EMA2')" href="#">EMA2</a></li>
+            <li><a onclick="setLocalArId('LTN4')" href="#">LTN4</a></li>
+        </ul>
+        <nav class="black-text">
+            <div class="nav-wrapper white">
+            <a id="brand-logo" class="brand-logo black-text">
+                Free Stations <span id="ar-location"></span>
+            </a>
+            <ul class="right hide-on-med-and-down ">
+                <li class="green"><a href="mailto:tudosm@amazon.com?subject=Station availability project"><i class="material-icons">email</i></a></li>
+                <!-- Dropdown Trigger -->
+                <li><a class="dropdown-trigger black" href="#!" data-target="dropdown1"><span id="fc-id">Select AR site</span><i class="material-icons right">arrow_drop_down</i></a></li>
+            </ul>
+            </div>
+        </nav>
+        </header>
+        <div id="2-floors">
+            <div id="intro" class="intro center">
+                <p class="text-green strong"><strong>2020 &#169; by tudosm</strong></p>
             </div>
             <div class="row center remove-space">
                 <div class="col m6">
@@ -33,16 +55,9 @@
             </div>
             <div class="row">
                 <div class="col m6" id="p2">
-                    <div class="col s6 m2 center">
-                        <div class="z-depth-3 hoverable round green accent-3 P2N">
-                           <p class="flow-text">2352</p>
-                           <p class="text-flow2">Universal</p>
-                        </div>
-                    </div>
                 </div>
                 <div class="col m6 p3-half" id="p3">
-                    
-                </div>
+            </div>
             </div>     
         </div>
       <!--JavaScript at end of body for optimized loading-->
