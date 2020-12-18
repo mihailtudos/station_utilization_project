@@ -12,6 +12,10 @@
     border-left: 3px solid black;
 }
 
+.p4-half {
+    border-left: 3px solid black;
+}
+
 .text-flow2 {
     font-size: 1.1rem;
 }
@@ -27,4 +31,8 @@
 .strong {
     font-size: 1rem;
     color: green;
+}
+
+.hide_default {
+    display: none;
 }

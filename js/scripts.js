@@ -1,13 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-   var elems = document.querySelectorAll('.carousel');
-   var instances = M.Carousel.init(elems, options);
-});
-// Or with jQuery
-
-// $(document).ready(function(){
-//   $('.carousel').carousel();
-// });
-
 function setLocalArId(ar_id) {
   localStorage.removeItem('ar_id');
   localStorage.setItem('ar_id', ar_id);
@@ -23,3 +13,23 @@ function getArSite(){
 }
 
 $(".dropdown-trigger").dropdown();
+
+// creates a station badge
+function createStationCard(sNumber, sType, floor, mCols){
+  let node = document.createElement("div");               
+  node.classList.add("col", "s6", mCols, "center");
+  let secondDiv = document.createElement("div");
+  secondDiv.classList.add("z-depth-3", "hoverable", "round", "green", "accent-3");
+  let para = document.createElement("p");
+  para.classList.add("flow-text");
+  let textnode = document.createTextNode(sNumber); 
+  para.appendChild(textnode);        
+  secondDiv.appendChild(para);
+  let station_type_p = document.createElement("p");
+  station_type_p.classList.add("flow-text2");
+  textnode = document.createTextNode(sType); 
+  station_type_p.appendChild(textnode);        
+  secondDiv.appendChild(station_type_p);
+  node.appendChild(secondDiv);                             
+  document.getElementById(floor).appendChild(node);  
+}

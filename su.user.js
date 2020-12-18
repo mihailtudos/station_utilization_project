@@ -20,26 +20,7 @@ function removeAllChildNodes(parent) {
         parent.removeChild(parent.firstChild);
     }
 }
-
-// creates a station badge
-function createStationCard(sNumber, sType, floor){
-    let node = document.createElement("div");               
-    node.classList.add("col", "s6", "m2", "center");
-    let secondDiv = document.createElement("div");
-    secondDiv.classList.add("z-depth-3", "hoverable", "round", "green", "accent-3");
-    let para = document.createElement("p");
-    para.classList.add("flow-text");
-    let textnode = document.createTextNode(sNumber); 
-    para.appendChild(textnode);        
-    secondDiv.appendChild(para);
-    let station_type_p = document.createElement("p");
-    station_type_p.classList.add("flow-text2");
-    textnode = document.createTextNode(sType); 
-    station_type_p.appendChild(textnode);        
-    secondDiv.appendChild(station_type_p);
-    node.appendChild(secondDiv);                             
-    document.getElementById(floor).appendChild(node);  
-}
+let fc_id = getArSite();
 
 //gets the link
 function getArLink(ar_id) {
@@ -51,13 +32,16 @@ function getArLink(ar_id) {
         return "https://roboscout.amazon.com/view_plot_data/?sites=(EMA2)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
     } else if(ar_id == 'LTN4'){
         return "https://roboscout.amazon.com/view_plot_data/?sites=(LTN4)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
+    } else if(ar_id == 'MAN1'){
+        return "https://roboscout.amazon.com/view_plot_data/?sites=(MAN1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
     } 
 }
-
-
 const apiURL = getArLink(getArSite());
 const p2 = document.getElementById('p2');
 const p3 = document.getElementById('p3');
+const p3_3floors = document.getElementById("p3-3floors")
+const p2_3floors = document.getElementById("p2-3floors")
+const p4_3floors = document.getElementById("p4-3floors")
 
 function loadSU() {
     GM.xmlHttpRequest({
@@ -74,9 +58,7 @@ function loadSU() {
             reportAJAX_Error(rspObj);
             return;
         }
-
         var st = rspObj.response;
-       
         var old = JSON.stringify(st).replace(/null/g, '"#"'); //convert to JSON string
         st = JSON.parse(old); //convert back to array
         document.getElementById("ar-location").textContent = `at ${st.data[1].yValue}`;
@@ -95,7 +77,6 @@ function loadSU() {
             var sversion = st.data[i + 9].yValue;
             var sidle = st.data[i + 10].yValue;
             var stimein = st.data[i + 11].yValue;
-            var stask = "EMPTY";
             if (sversion.includes("IDS")) {
                 stype = "Nike";
             }
@@ -105,22 +86,44 @@ function loadSU() {
         }
         JSON.stringify(ss);
         // console.table(ss);
-        // console.table(sl);
-        removeAllChildNodes(p2);
-        removeAllChildNodes(p3);
-        for (var i = 0, len = ss.length; i < len; i++) {
-            if(ss[i].saa == 'AVAILABLE' && ss[i].snumber != 2383 && ss[i].snumber != 3383) {
-                if(ss[i].snumber < 3000 ) {
-                    createStationCard(ss[i].snumber, ss[i].stype, "p2");
-                } else {
-                    createStationCard(ss[i].snumber, ss[i].stype, "p3");
+        if(fc_id == 'BRS1' || fc_id == 'EMA1') {
+            removeAllChildNodes(p2);
+            removeAllChildNodes(p3);
+            document.getElementById("2-floors").style.display = "initial";
+            document.getElementById("3-floors").style.display = "none"
+            for (let i = 0, len = ss.length; i < len; i++) {
+                if(ss[i].saa == 'AVAILABLE' ) {
+                    if(ss[i].snumber < 3000  && ss[i].snumber != 2383) {
+                        createStationCard(ss[i].snumber, ss[i].stype, "p2", "m2");
+                    }
+                    if(ss[i].snumber > 3000  && ss[i].snumber != 3383) {
+                        createStationCard(ss[i].snumber, ss[i].stype, "p3", "m2");
+                    }
+                }
+            }
+        } else if(fc_id = "MAN1") {
+            removeAllChildNodes(p3_3floors);
+            removeAllChildNodes(p2_3floors);
+            removeAllChildNodes(p4_3floors);
+            document.getElementById("2-floors").style.display = "none";
+            document.getElementById("3-floors").style.display = "initial"
+            for (let i = 0, len = ss.length; i < len; i++) {
+                if(ss[i].saa == 'AVAILABLE') {
+                    if(ss[i].snumber < 3000 ) {
+                        createStationCard(ss[i].snumber, ss[i].stype, "p2-3floors", "m2");
+                    } else if(ss[i].snumber > 3000 && ss[i].snumber < 4000) {
+                        createStationCard(ss[i].snumber, ss[i].stype, "p3-3floors", "m2");
+                    } else if(ss[i].snumber > 4000 && ss[i].snumber < 5000) {
+                        createStationCard(ss[i].snumber, ss[i].stype, "p4-3floors", "m2");
+                    }
                 }
             }
         }
+
     }
     function reportAJAX_Error(rspObj) {
         console.error(`scrpt => Error ${rspObj.status}!  ${rspObj.statusText} contact @tudosm`);
-        alert("There seem to be a proble, please contact @tudosm")
+        alert("There seems to be a problem (hint: choose your FC and refresh the page) please, contact @tudosm")
     }
     // refreshing rate se tot 1 min
     var timer;
