@@ -34,6 +34,14 @@ function getArLink(ar_id) {
         return "https://roboscout.amazon.com/view_plot_data/?sites=(LTN4)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
     } else if(ar_id == 'MAN1'){
         return "https://roboscout.amazon.com/view_plot_data/?sites=(MAN1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
+    } else if(ar_id == 'MAN2'){
+        return "https://roboscout.amazon.com/view_plot_data/?sites=(MAN2)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
+    } else if(ar_id == 'MME1'){
+        return "https://roboscout.amazon.com/view_plot_data/?sites=(MME1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
+    } else if(ar_id == 'MAN3'){
+        return "https://roboscout.amazon.com/view_plot_data/?sites=(MAN3)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
+    } else if(ar_id == 'MME2'){
+        return "https://roboscout.amazon.com/view_plot_data/?sites=(MME2)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout";
     } 
 }
 const apiURL = getArLink(getArSite());
@@ -86,7 +94,7 @@ function loadSU() {
         }
         JSON.stringify(ss);
         // console.table(ss);
-        if(fc_id == 'BRS1' || fc_id == 'EMA1') {
+        if(fc_id == 'BRS1' || fc_id == 'EMA1' || fc_id == 'MAN2' || fc_id == 'MME1' || fc_id == 'MAN3') {
             removeAllChildNodes(p2);
             removeAllChildNodes(p3);
             document.getElementById("2-floors").style.display = "initial";
@@ -101,7 +109,7 @@ function loadSU() {
                     }
                 }
             }
-        } else if(fc_id = "MAN1") {
+        } else if(fc_id = "MAN1" || fc_id == 'MME2') {
             removeAllChildNodes(p3_3floors);
             removeAllChildNodes(p2_3floors);
             removeAllChildNodes(p4_3floors);
