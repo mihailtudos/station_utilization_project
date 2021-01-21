@@ -28,11 +28,14 @@
     font-size: 4rem;
 }
 
-.strong {
-    font-size: 1rem;
+.text-green {
     color: green;
 }
 
 .hide_default {
     display: none;
+}
+
+.text-end {
+    text-align: right;
 }
