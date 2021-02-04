@@ -1,3 +1,7 @@
+//set current year
+var date = new Date();
+document.getElementById("year").textContent = date.getFullYear();
+
 function setLocalArId(ar_id) {
   localStorage.removeItem('ar_id');
   localStorage.setItem('ar_id', ar_id);
@@ -31,5 +35,5 @@ function createStationCard(sNumber, sType, floor, mCols){
   station_type_p.appendChild(textnode);        
   secondDiv.appendChild(station_type_p);
   node.appendChild(secondDiv);                             
-  document.getElementById(floor).appendChild(node);  
+  document.getElementById(floor).appendChild(node);
 }
