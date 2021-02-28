@@ -9,9 +9,6 @@ function setLocalArId(ar_id) {
 }
 //gets the FC ID
 function getArSite(){
-  // let url_string = window.location;
-  // let url = new URL(url_string);
-  // let id = url.searchParams.get("ar_id");
   id = localStorage.getItem("ar_id");
   return id;
 }
