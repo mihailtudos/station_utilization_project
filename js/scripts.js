@@ -34,3 +34,32 @@ function createStationCard(sNumber, sType, floor, mCols){
   node.appendChild(secondDiv);                             
   document.getElementById(floor).appendChild(node);
 }
+
+
+function createTwoFloors(ss) {
+  removeAllChildNodes(p2);
+        removeAllChildNodes(p3);
+        document.getElementById("2-floors").style.display = "initial";
+        document.getElementById("3-floors").style.display = "none"
+        let countStationsFF = 0, countStationsSF = 0;
+        for (let i = 0, len = ss.length; i < len; i++) {
+            if(ss[i].snumber < 3000  && ss[i].snumber != 2383) {
+                if(ss[i].saa == 'AVAILABLE'){
+                    createStationCard(ss[i].snumber, ss[i].stype, "p2", "m2");
+                } 
+                if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
+                    countStationsFF++;
+                }
+            }
+            if(ss[i].snumber > 3000  && ss[i].snumber != 3383) {
+                if(ss[i].saa == "AVAILABLE") {
+                    createStationCard(ss[i].snumber, ss[i].stype, "p3", "m2");
+                }
+                if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
+                    countStationsSF++;
+                }
+            }
+        }
+        document.getElementById("countStationsFF").textContent = countStationsFF;
+        document.getElementById("countStationsSF").textContent = countStationsSF;
+}

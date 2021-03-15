@@ -59,10 +59,60 @@ const fcs = [
         data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(MME2)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
     },
     {
-        id: 'LBA3',
-        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(MME2)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+        id: 'LCY2',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(LBA3)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'KTW3',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(KTW3)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'SZZ1',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(SZZ1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'DUS4',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(DUS4)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'FRA7',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(FRA7)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'HAM2',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(HAM2)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'PAD1',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(PAD1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'ORY4',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(ORY4)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'BLQ1',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(BLQ1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'FCO1',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(FCO1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'TRN1',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(TRN1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'BCN1',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(BCN1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+        id: 'SVQ1',
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(SVQ1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
     },
 ]
+
+const FC_TWO_FLOORS = ['BRS1', 'DUS4', 'EMA1', 'LTN4', 'MAN2', 'MAN3', 'MME1', 'PAD1']
 
 let fc_id = getArSite();
 //gets the link
@@ -84,7 +134,7 @@ function loadSU() {
         method: "GET",
         url: getArLink(getArSite()),
         responseType: "json",
-        onload: processJSON_Response,
+        onload: parseResponse,
         onabort: reportAJAX_Error,
         onerror: reportAJAX_Error,
         ontimeout: reportAJAX_Error
@@ -95,7 +145,8 @@ function loadSU() {
     timer = setTimeout(loadSU, 1 * 60000);//set to 1 min
 };
 
-function processJSON_Response(rspObj) {
+function parseResponse(rspObj) {
+    
     if (rspObj.status != 200 && rspObj.status != 304) {
         reportAJAX_Error(rspObj);
         return;
@@ -128,32 +179,8 @@ function processJSON_Response(rspObj) {
     }
     JSON.stringify(ss);
     // console.table(ss);
-    if(fc_id == 'BRS1' || fc_id == 'EMA1' || fc_id == 'EMA2' || fc_id == 'MAN2' || fc_id == 'MME1' || fc_id == 'MAN3') {
-        removeAllChildNodes(p2);
-        removeAllChildNodes(p3);
-        document.getElementById("2-floors").style.display = "initial";
-        document.getElementById("3-floors").style.display = "none"
-        let countStationsFF = 0, countStationsSF = 0;
-        for (let i = 0, len = ss.length; i < len; i++) {
-            if(ss[i].snumber < 3000  && ss[i].snumber != 2383) {
-                if(ss[i].saa == 'AVAILABLE'){
-                    createStationCard(ss[i].snumber, ss[i].stype, "p2", "m2");
-                } 
-                if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
-                    countStationsFF++;
-                }
-            }
-            if(ss[i].snumber > 3000  && ss[i].snumber != 3383) {
-                if(ss[i].saa == "AVAILABLE") {
-                    createStationCard(ss[i].snumber, ss[i].stype, "p3", "m2");
-                }
-                if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
-                    countStationsSF++;
-                }
-            }
-        }
-        document.getElementById("countStationsFF").textContent = countStationsFF;
-        document.getElementById("countStationsSF").textContent = countStationsSF;
+    if(FC_TWO_FLOORS.includes(fc_id)) {
+        createTwoFloors(ss);
     } else if(fc_id = "MAN1" || fc_id == 'MME2') {
         removeAllChildNodes(p3_3floors);
         removeAllChildNodes(p2_3floors);
@@ -196,7 +223,7 @@ function processJSON_Response(rspObj) {
 
 function reportAJAX_Error(rspObj) {
     console.error(`scrpt => Error ${rspObj.status}!  ${rspObj.statusText} contact @tudosm`);
-    alert("There seems to be a problem (hint: choose your FC and refresh the page) please, contact @tudosm")
+    alert("Choose your FC and refresh the page or contact @tudosm")
 }
 
 var myDiv = document.querySelector("#loadSU");
