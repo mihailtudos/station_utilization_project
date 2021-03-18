@@ -1,5 +1,6 @@
 //set current year
-var date = new Date();
+let date = new Date();
+const app = document.getElementById('app');
 document.getElementById("year").textContent = date.getFullYear();
 
 function setLocalArId(ar_id) {
@@ -7,6 +8,7 @@ function setLocalArId(ar_id) {
   localStorage.setItem('ar_id', ar_id);
   document.getElementById('fc-id').textContent = ar_id;
 }
+
 //gets the FC ID
 function getArSite(){
   id = localStorage.getItem("ar_id");
@@ -35,6 +37,34 @@ function createStationCard(sNumber, sType, floor, mCols){
   document.getElementById(floor).appendChild(node);
 }
 
+function createIntroHeder(floors) {
+    const introDiv = document.createElement('div');
+    introDiv.id = 'intro';
+    introDiv.className = "intro";
+    const rowDiv = document.createElement('div');
+    rowDiv.className = 'row';
+    
+
+    for (let i = 0; i < floors; i++) {
+        let colDiv = document.createElement('div');
+        colDiv.className = 'col m4';
+        let ul = document.createElement('ul');
+        i > floors / 2 ? ul.className = 'text-end' : '';
+        let li = document.createElement('li');
+        li.className = 'flow-text';
+        li.textContent = 'Conent';
+        ul.appendChild(li);
+        colDiv.appendChild(ul);
+        rowDiv.appendChild(colDiv);
+    }
+
+    introDiv.appendChild(rowDiv);
+    app.appendChild(introDiv);
+}
+
+function displayTwoFloors(stations) {
+    createIntroHeder(2);
+}
 
 function createTwoFloors(ss) {
   removeAllChildNodes(p2);
@@ -63,3 +93,42 @@ function createTwoFloors(ss) {
         document.getElementById("countStationsFF").textContent = countStationsFF;
         document.getElementById("countStationsSF").textContent = countStationsSF;
 }
+
+function createOneToThreeFloors(ss) {
+  removeAllChildNodes(p3_3floors);
+  removeAllChildNodes(p2_3floors);
+  removeAllChildNodes(p4_3floors);
+  document.getElementById("2-floors").style.display = "none";
+  document.getElementById("3-floors").style.display = "initial"
+  let countStationsFF = 0, countStationsSF = 0, countStationsTF = 0;
+  for (let i = 0, len = ss.length; i < len; i++) {
+    if(ss[i].snumber < 3000 ) {
+        if(ss[i].saa == 'AVAILABLE') {
+            createStationCard(ss[i].snumber, ss[i].stype, "p2-3floors", "m2");
+        }
+        if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
+            countStationsFF++;
+        }
+    } else if(ss[i].snumber > 3000 && ss[i].snumber < 4000) {
+        if(ss[i].saa == 'AVAILABLE') {
+            createStationCard(ss[i].snumber, ss[i].stype, "p3-3floors", "m2");
+        }
+        if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
+            countStationsTF++;
+        }
+    } else if(ss[i].snumber > 4000 && ss[i].snumber < 5000) {
+        if(ss[i].saa == 'AVAILABLE') {
+            createStationCard(ss[i].snumber, ss[i].stype, "p4-3floors", "m2");
+        }
+        if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
+            countStationsSF++;
+        }
+    }
+      
+  }
+  document.getElementById("countStationsFF").textContent = countStationsFF;
+  document.getElementById("countStationsSF").textContent = countStationsSF;
+  document.getElementById("countStationsTF").textContent = countStationsTF;
+  extraFloor.style.display = "initial"
+}
+

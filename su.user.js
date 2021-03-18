@@ -112,7 +112,9 @@ const fcs = [
     },
 ]
 
-const FC_TWO_FLOORS = ['BRS1', 'DUS4', 'EMA1', 'LTN4', 'MAN2', 'MAN3', 'MME1', 'PAD1']
+const FC_TWO_FLOORS = ['BRS1', 'DUS4', 'EMA1', 'LTN4', 'MAN2', 'MAN3', 'MME1', 'PAD1'];
+const FC_ONE_TO_THREE_FLOORS = ['EMA2', 'HAM2'];
+const FC_TWO_TO_FOUR_FLOORS = ['KTW3', 'MAN1', 'MME2'];
 
 let fc_id = getArSite();
 //gets the link
@@ -178,46 +180,17 @@ function parseResponse(rspObj) {
         i = i + 12;
     }
     JSON.stringify(ss);
+    app.innerHTML = '';
     // console.table(ss);
     if(FC_TWO_FLOORS.includes(fc_id)) {
         createTwoFloors(ss);
-    } else if(fc_id = "MAN1" || fc_id == 'MME2') {
-        removeAllChildNodes(p3_3floors);
-        removeAllChildNodes(p2_3floors);
-        removeAllChildNodes(p4_3floors);
-        document.getElementById("2-floors").style.display = "none";
-        document.getElementById("3-floors").style.display = "initial"
-        let countStationsFF = 0, countStationsSF = 0, countStationsTF = 0;
-        for (let i = 0, len = ss.length; i < len; i++) {
-            
-                if(ss[i].snumber < 3000 ) {
-                    if(ss[i].saa == 'AVAILABLE') {
-                        createStationCard(ss[i].snumber, ss[i].stype, "p2-3floors", "m2");
-                    }
-                    if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
-                        countStationsFF++;
-                    }
-                } else if(ss[i].snumber > 3000 && ss[i].snumber < 4000) {
-                    if(ss[i].saa == 'AVAILABLE') {
-                        createStationCard(ss[i].snumber, ss[i].stype, "p3-3floors", "m2");
-                    }
-                    if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
-                        countStationsTF++;
-                    }
-                } else if(ss[i].snumber > 4000 && ss[i].snumber < 5000) {
-                    if(ss[i].saa == 'AVAILABLE') {
-                        createStationCard(ss[i].snumber, ss[i].stype, "p4-3floors", "m2");
-                    }
-                    if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
-                        countStationsSF++;
-                    }
-                }
-            
-        }
-        document.getElementById("countStationsFF").textContent = countStationsFF;
-        document.getElementById("countStationsSF").textContent = countStationsSF;
-        document.getElementById("countStationsTF").textContent = countStationsTF;
-        extraFloor.style.display = "initial"
+        setTimeout(() => {
+            displayTwoFloors(2);
+        }, 2000);
+    } else if(FC_ONE_TO_THREE_FLOORS.includes(fc_id)) {
+        createOneToThreeFloors(ss);
+    } else if (FC_TWO_TO_FOUR_FLOORS.includes(fc_id)) {
+
     }
 }
 
