@@ -1,0 +1,86 @@
+stations = [
+  {
+    snumber: 1405,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Simple Bin Count Generic',
+  },
+  {
+    snumber: 1338,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Simple Bin Count Generic',
+  },
+  {
+    snumber: 1235,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Simple Bin Count Generic',
+  },
+  {
+    snumber: 2363,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Simple Record Count Generic',
+  },
+  {
+    snumber: 3452,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Cycle Count Generic',
+  },
+  {
+    snumber: 3353,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Cycle Count Generic',
+  },
+  {
+    snumber: 3356,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Cycle Count Generic',
+  },
+  {
+    snumber: 3356,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Cycle Count Generic',
+  },
+  {
+    snumber: 3356,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Cycle Count Generic',
+  },
+  {
+    snumber: 3356,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Cycle Count Generic',
+  },
+  {
+    snumber: 3356,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Cycle Count Generic',
+  },
+  {
+    snumber: 4038,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Cycle Count Generic',
+  },
+  {
+    snumber: 4438,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Cycle Count Generic',
+  },
+  {
+    snumber: 4503,
+    saa: 'AVAILABLE',
+    stype: 'Kiva',
+    smode: 'Cycle Count Generic',
+  },
+];

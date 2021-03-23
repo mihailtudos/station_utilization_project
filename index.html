@@ -1,136 +1,89 @@
 <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="utf-8"/>
-      <!--Import Google Icon Font-->
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!--Import materialize.css-->
-      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-      <!--Let browser know website is optimized for mobile-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <title>Station Availability Tool</title>
-      <!-- Compiled and minified CSS -->
-      <link rel="stylesheet" href="./materialize/css/materialize.min.css">
-      <!-- Compiled and minified JavaScript -->
-      <script src="./materialize/js/materialize.min.js"></script>
-      <!-- Custom CSS -->
-      <link rel="stylesheet" href="css/styles.css">    
-    </head>
-    <body>
-        <header>
-            <!-- Dropdown Structure -->
-        <ul id="dropdown1" class="dropdown-content ">
-            <li><a onclick="setLocalArId('BRS1')" href="#">BRS1</a></li>
-            <li><a onclick="setLocalArId('DUS4')" href="#">DUS4</a></li>
-            <li><a onclick="setLocalArId('EMA1')" href="#">EMA1</a></li>
-            <li><a onclick="setLocalArId('LTN4')" href="#">LTN4</a></li>
-            <li><a onclick="setLocalArId('MAN2')" href="#">MAN2</a></li>
-            <li><a onclick="setLocalArId('MAN3')" href="#">MAN3</a></li>
-            <li><a onclick="setLocalArId('MME1')" href="#">MME1</a></li>
-            <li><a onclick="setLocalArId('PAD1')" href="#">PAD1</a></li>
-            <li class="divider"></li>
-            <li><a onclick="setLocalArId('EMA2')" href="#">EMA2</a></li>
-            <li><a onclick="setLocalArId('HAM2')" href="#">HAM2</a></li>
-            <li class="divider"></li>
-            <li><a onclick="setLocalArId('KTW3')" href="#">KTW3</a></li>
-            <li><a onclick="setLocalArId('MAN1')" href="#">MAN1</a></li>
-            <li><a onclick="setLocalArId('MME2')" href="#">MME2</a></li>
-            <li class="divider"></li>
-            <li><a onclick="setLocalArId('SVQ1')" href="#">SVQ1</a></li>
-            <li class="divider"></li>
-            <li><a onclick="setLocalArId('ORY4')" href="#">ORY4</a></li>
-            <li><a onclick="setLocalArId('FRA7')" href="#">FRA7</a></li>
-            <li><a onclick="setLocalArId('SZZ1')" href="#">SZZ1</a></li>
-            <li class="divider"></li>
-            <li><a onclick="setLocalArId('BCN1')" href="#">BCN1</a></li>
-            <li><a onclick="setLocalArId('LCY2')" href="#">LCY2</a></li>
-            <li class="divider"></li>
-            <li><a onclick="setLocalArId('BLQ1')" href="#">BLQ1</a></li>
-            <li class="divider"></li>
-            <li><a onclick="setLocalArId('FCO1')" href="#">FCO1</a></li>
-            <li class="divider"></li>
-            <li><a onclick="setLocalArId('TRN1')" href="#">TRN1</a></li>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Station Availability Tool</title>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" type="text/css" href="./css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="./js/materialize.min.js"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/styles.css">    
+</head>
+<body>
+  <header>
+    <!-- Dropdown Structure -->
+    <ul id="dropdown1" class="dropdown-content ">
+      <li><a onclick="setLocalArId('BRS1')" href="#">BRS1</a></li>
+      <li><a onclick="setLocalArId('DUS4')" href="#">DUS4</a></li>
+      <li><a onclick="setLocalArId('EMA1')" href="#">EMA1</a></li>
+      <li><a onclick="setLocalArId('LTN4')" href="#">LTN4</a></li>
+      <li><a onclick="setLocalArId('MAN2')" href="#">MAN2</a></li>
+      <li><a onclick="setLocalArId('MAN3')" href="#">MAN3</a></li>
+      <li><a onclick="setLocalArId('MME1')" href="#">MME1</a></li>
+      <li><a onclick="setLocalArId('PAD1')" href="#">PAD1</a></li>
+      <li class="divider"></li>
+      <li><a onclick="setLocalArId('EMA2')" href="#">EMA2</a></li>
+      <li><a onclick="setLocalArId('HAM2')" href="#">HAM2</a></li>
+      <li class="divider"></li>
+      <li><a onclick="setLocalArId('KTW3')" href="#">KTW3</a></li>
+      <li><a onclick="setLocalArId('MAN1')" href="#">MAN1</a></li>
+      <li><a onclick="setLocalArId('MME2')" href="#">MME2</a></li>
+      <li class="divider"></li>
+      <li><a onclick="setLocalArId('SVQ1')" href="#">SVQ1</a></li>
+      <li class="divider"></li>
+      <li><a onclick="setLocalArId('ORY4')" href="#">ORY4</a></li>
+      <li><a onclick="setLocalArId('FRA7')" href="#">FRA7</a></li>
+      <li><a onclick="setLocalArId('SZZ1')" href="#">SZZ1</a></li>
+      <li class="divider"></li>
+      <li><a onclick="setLocalArId('BCN1')" href="#">BCN1</a></li>
+      <li><a onclick="setLocalArId('LCY2')" href="#">LCY2</a></li>
+      <li class="divider"></li>
+      <li><a onclick="setLocalArId('BLQ1')" href="#">BLQ1</a></li>
+      <li class="divider"></li>
+      <li><a onclick="setLocalArId('FCO1')" href="#">FCO1</a></li>
+      <li class="divider"></li>
+      <li><a onclick="setLocalArId('TRN1')" href="#">TRN1</a></li>
+    </ul>
+    <nav class="black-text">
+      <div class="nav-wrapper white">
+        <a href="/" id="brand-logo" class="brand-logo black-text">
+          Available stations <span id="ar-location"></span>
+        </a>
+        <ul class="right hide-on-med-and-down ">
+          <li class="green">
+            <a href="mailto:tudosm@amazon.com?subject=Station availability project"><i class="material-icons">email</i></a>
+          </li>
+          <!-- Dropdown Trigger -->
+          <li class="ar-dropdown">
+            <a class="dropdown-trigger black" href="#!" data-target="dropdown1"><span id="fc-id">Select site</span><i class="material-icons right">arrow_drop_down</i></a>
+          </li>
         </ul>
-        <nav class="black-text">
-            <div class="nav-wrapper white">
-            <a id="brand-logo" class="brand-logo black-text">
-                Free stations <span id="ar-location"></span>
-            </a>
-            <ul class="right hide-on-med-and-down ">
-                <li class="green"><a href="mailto:tudosm@amazon.com?subject=Station availability project"><i class="material-icons">email</i></a></li>
-                <!-- Dropdown Trigger -->
-                <li><a class="dropdown-trigger black" href="#!" data-target="dropdown1"><span id="fc-id">Select AR site</span><i class="material-icons right">arrow_drop_down</i></a></li>
-            </ul>
-            </div>
-        </nav>
-        </header>
-        <div id="app">
-            
-        </div>
-        <div id="intro" class="intro">
-            <div class="row">
-                <div class="col m4">
-                    <ul>
-                        <li class="flow-text">Count: <span class="text-green" id="countStationsFF">0</span></li>
-                    </ul>
-                </div>
-                <div class="col m4 center">
-                    <p class="text-green"><span id="year"></span> &#169; by tudosm</p>
-                    <ul id="extra_floor"  class="hide_default">
-                        <li class="flow-text">Count: <span class="text-green" id="countStationsTF">0</span></li>
-                    </ul>
-                </div>
-                <div class="col m4 ">
-                    <ul class="text-end">
-                        <li class="flow-text">Count: <span class="text-green" id="countStationsSF">0</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div id="2-floors" class="hide_default">
-            <div class="row center remove-space">
-                <div class="col m6">
-                    <h3>P2</h3>
-                </div>
-                <div class="col m6 p3-half">
-                    <h3>P3</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col m6" id="p2">
-                </div>
-                <div class="col m6 p3-half" id="p3">
-                </div>
-            </div>     
-        </div>
-        <div id="3-floors" class="hide_default">
-            <div class="row center remove-space">
-                <div class="col m4">
-                    <h3>P2</h3>
-                </div>
-                <div class="col m4 p3-half">
-                    <h3>P3</h3>
-                </div>
-                <div class="col m4 p4-half">
-                    <h3>P4</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col m4" id="p2-3floors">
-                </div>
-                <div class="col m4 p3-half" id="p3-3floors">
-                </div>
-                <div class="col m4 p4-half" id="p4-3floors">
-                </div>
-            </div>     
-        </div>
-        
-      <!--JavaScript at end of body for optimized loading-->
-      <script type="text/javascript" src="js/materialize.min.js"></script>
-      <script type="text/javascript" src="./js/scripts.js"></script>
-      <script type="text/javascript" src="./su.user.js"></script>
-    </body>
-  </html>
-        
+      </div>
+    </nav>
+  </header>
+    <div>
+      <div class="col m4 center">
+        <p class="text-green"><span id="year"></span> &#169; by tudosm</p>
+        <ul id="extra_floor"  class="hide_default">
+          <li class="flow-text">Count: <span class="text-green" id="countStationsTF">0</span></li>
+        </ul>
+      </div>
+      <div id="app">
+
+      </div>
+    </div>
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="./js/data.js"></script>
+    <script type="text/javascript" src="./js/scripts.js"></script>
+    <!-- <script type="text/javascript" src="./su.user.js"></script> -->
+</body>
+</html>

@@ -1,25 +1,17 @@
 // ==UserScript==
-// @name         Su v1
+// @name         Su v2
 // @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  This project uses the roboscout API to fetch real time station status (AR sites), manipulates received data and displays available station in a user friendly manner
+// @version      2.0
+// @description  This project uses the roboscout API to fetch in real time station status of any EU AR site, manipulates received data and displays available station in a user friendly view
 // @author       Mihail Tudos
 // @require      http://code.jquery.com/jquery-3.5.1.min.js
-
 // @include      *index*.html
 // @match        *index*.html
-
 // @grant        GM.xmlHttpRequest
 // @run-at       document-end
 // ==/UserScript==
 /* global $ */
 /* eslint-disable no-multi-spaces, curly */
-
-function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
-}
 
 const fcs = [
     {
@@ -117,34 +109,30 @@ const FC_ONE_TO_THREE_FLOORS = ['EMA2', 'HAM2'];
 const FC_TWO_TO_FOUR_FLOORS = ['KTW3', 'MAN1', 'MME2'];
 
 let fc_id = getArSite();
+
 //gets the link
 function getArLink(ar_id) {
     const fc_object = fcs.filter(fc => (fc.id === ar_id));
     const {data_link} = fc_object[0];
     return data_link;
 }
-const apiURL = getArLink(getArSite());
-const p2 = document.getElementById('p2');
-const p3 = document.getElementById('p3');
-const p3_3floors = document.getElementById("p3-3floors")
-const p2_3floors = document.getElementById("p2-3floors")
-const p4_3floors = document.getElementById("p4-3floors")
-const extraFloor = document.getElementById("extra_floor");
 
-function loadSU() {
+const apiUrl = getArLink(getArSite());
+
+function fetchStations() {
     GM.xmlHttpRequest({
         method: "GET",
-        url: getArLink(getArSite()),
+        url: apiUrl,
         responseType: "json",
         onload: parseResponse,
         onabort: reportAJAX_Error,
         onerror: reportAJAX_Error,
         ontimeout: reportAJAX_Error
     });
-    // refreshing rate se tot 1 min
-    var timer;
+    // refreshing rate set ot 1 min
+    let timer;
     clearTimeout(timer);
-    timer = setTimeout(loadSU, 1 * 60000);//set to 1 min
+    timer = setTimeout(fetchStations, 60000);//set to 1 min
 };
 
 function parseResponse(rspObj) {
@@ -180,27 +168,26 @@ function parseResponse(rspObj) {
         i = i + 12;
     }
     JSON.stringify(ss);
-    app.innerHTML = '';
+
     // console.table(ss);
     if(FC_TWO_FLOORS.includes(fc_id)) {
-        createTwoFloors(ss);
-        setTimeout(() => {
-            displayTwoFloors(2);
-        }, 2000);
+        createBuildingFloors(ss, 2, 3, 2);
     } else if(FC_ONE_TO_THREE_FLOORS.includes(fc_id)) {
-        createOneToThreeFloors(ss);
+        createBuildingFloors(ss, 1, 3, 3);
     } else if (FC_TWO_TO_FOUR_FLOORS.includes(fc_id)) {
-
+      createBuildingFloors(ss, 2, 4, 3);
     }
 }
 
 function reportAJAX_Error(rspObj) {
-    console.error(`scrpt => Error ${rspObj.status}!  ${rspObj.statusText} contact @tudosm`);
+    // console.error(`scrpt => Error ${rspObj.status}!  ${rspObj.statusText} contact @tudosm`);
     alert("Choose your FC and refresh the page or contact @tudosm")
 }
 
-var myDiv = document.querySelector("#loadSU");
-if (myDiv) {
-    myDiv.addEventListener("click", loadSU, false);
-}
-loadSU();
+// var myDiv = document.querySelector("#loadSU");
+
+// if (myDiv) {
+//     myDiv.addEventListener("click", loadSU, false);
+// }
+
+// fetchStations();
