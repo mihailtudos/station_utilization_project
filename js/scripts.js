@@ -2,12 +2,16 @@
 let date = new Date();
 const app = document.getElementById('app');
 document.getElementById("year").textContent = date.getFullYear();
+let data; 
+const floorsAndLevels = [];
+let numberOfFloors;
+
 
 function setLocalArId(ar_id) {
   localStorage.removeItem('ar_id');
   localStorage.setItem('ar_id', ar_id);
   document.getElementById('fc-id').textContent = ar_id;
-  // fetchStations();
+  location.reload();
 }
 
 //gets the FC ID
@@ -23,12 +27,98 @@ function checkCardSize(numberOfFloors) {
     case 2: return `m3`;
     case 3: return `m4`;
     case 4: return `m6`;
-    case 5: return `m12`;
+    case 5: return `m6`;
+    case 6: return `m6`;
+    case 7: return `m6`;
+  }
+}
+
+function checkHeaderSize(numberOfFloors) {
+  switch (numberOfFloors) {
+    case 2: return `m6`;
+    case 3: return `m4`;
+    case 4: return `m3`;
+    case 5: return `m2`;
+    case 6: return `m2`;
+    case 7: return `m2`;
+  }
+}
+
+function setFloorsAndLevels(stations) {
+  stations.forEach(station => {
+    if(!floorsAndLevels.includes(station.sfloor)) {
+      floorsAndLevels.push(station.sfloor);
+    }
+  });
+  numberOfFloors = floorsAndLevels.length;
+}
+
+function createAppSchema(stations) {
+  setFloorsAndLevels(stations);
+  app.innerHTML = '';
+  const floorHeader = document.createElement('div');
+  floorHeader.id = 'floorHeaderContainer';
+  let row = document.createElement('div');
+  row.className = 'row center remove-space';
+  row.id = 'floorHeader';
+  floorHeader.appendChild(row);
+
+  const floorStations = document.createElement('div');
+  floorStations.id = 'floorStationsContainer';
+  row = document.createElement('div');
+  row.className = 'row';
+  row.id = 'floorStations';
+  floorStations.appendChild(row);
+
+  app.append(floorHeader, floorStations);
+  createBuildingSchema(stations);
+}
+
+
+function createBuildingSchema(stations) {
+  const floorHeader = document.getElementById('floorHeader');
+  const floorStations = document.getElementById('floorStations');
+
+  for (let i = 0; i < floorsAndLevels.length && i < 6; i++) {
+    let colDiv = document.createElement('div');
+    let divClass = `col ${checkHeaderSize(numberOfFloors)}`;
+    
+    if(i === 0 && floorsAndLevels.length === 5) {
+      divClass += divClass + ' offset-m1';
+    }
+
+    colDiv.className = divClass;
+    let floorTitle = document.createElement('h3');
+    floorTitle.textContent = `${floorsAndLevels[i]}`;
+    colDiv.append(floorTitle);
+    floorHeader.append(colDiv);
+
+    //creates floors schema 
+    colDiv = document.createElement('div');
+    colDiv.id = floorsAndLevels[i];
+    colDiv.className = divClass;
+    i > 0 ? colDiv.classList.add('border-left') : ''; 
+    floorStations.append(colDiv)
+  }
+
+  appendStations(stations);
+}
+
+function appendStations(stations) {
+
+  for (let i = 0; i < numberOfFloors; i++) {
+    let floorID = document.getElementById(floorsAndLevels[i]);
+    console.log(floorID);
+    stations.forEach(station => {
+      if (station.sfloor === floorID.id) {
+        createStationCard(station.snumber, station.stype, floorID.id, numberOfFloors);
+      }
+    })
   }
 }
 
 // creates a station card
-function createStationCard(sNumber, sType, floor, numberOfFloors){
+function createStationCard(sNumber, sType, floor, noFloors){
   //station number paragraph
   const paragraph = document.createElement("p");
   paragraph.classList.add("flow-text");
@@ -43,10 +133,9 @@ function createStationCard(sNumber, sType, floor, numberOfFloors){
   innerDiv.classList.add("hoverable", "card");
   innerDiv.appendChild(paragraph);
   innerDiv.appendChild(station_type);
-  
   //outer div (card container div)
   const cardContainer = document.createElement("div");
-  cardContainer.className = `col s6 center ${checkCardSize(numberOfFloors)}`;
+  cardContainer.className = `col s6 center ${checkCardSize(noFloors)}`;
   cardContainer.appendChild(innerDiv);
   
   //get the floor to add created card
@@ -54,7 +143,7 @@ function createStationCard(sNumber, sType, floor, numberOfFloors){
   if (selectedFloor) selectedFloor.appendChild(cardContainer);
 }
 
-function buildFloorHeader(start, end, numberOfFloors) {
+function buildFloorHeader(start, end, noFloors) {
   const containerDiv = document.getElementById('2-floors');
   const row = document.createElement('div');
   row.className = 'row center remove-space';
@@ -70,7 +159,7 @@ function buildFloorHeader(start, end, numberOfFloors) {
   containerDiv.appendChild(row);
 }
 
-function buildFloors(start, end, numberOfFloors) {
+function buildFloors(start, end, noFloors) {
   const containerDiv = document.createElement('div');
   containerDiv.id = '2-floors';
   app.appendChild(containerDiv);
@@ -88,7 +177,8 @@ function buildFloors(start, end, numberOfFloors) {
   containerDiv.appendChild(row);
 }
 
-function createBuildingFloors(ss, start, end, numberOfFloors) {
+function createBuildingFloors(ss, start, end, noFloors) {
+  data = ss;
   app.innerHTML = '';
   buildFloors(start, end, numberOfFloors);
 
@@ -114,86 +204,18 @@ function createBuildingFloors(ss, start, end, numberOfFloors) {
 }
 
 
-function addStationOnP1({snumber, stype}, numberOfFloors) {
+function addStationOnP1({snumber, stype}, noFloors) {
   createStationCard(snumber, stype, "p1", numberOfFloors);
 }
 
-function addStationOnP2({snumber, stype}, numberOfFloors) {
+function addStationOnP2({snumber, stype}, noFloors) {
   createStationCard(snumber, stype, "p2", numberOfFloors);
 }
 
-function addStationOnP3({snumber, stype}, numberOfFloors) {
+function addStationOnP3({snumber, stype}, noFloors) {
   createStationCard(snumber, stype, "p3", numberOfFloors);
 }
 
-function addStationOnP4({snumber, stype}, numberOfFloors) {
+function addStationOnP4({snumber, stype}, noFloors) {
   createStationCard(snumber, stype, "p4", numberOfFloors);
 }
-
-
-// function createTwoFloors(ss) {
-//   app.innerHTML = '';
-//   buildFloors(2);
-//   document.getElementById("2-floors").style.display = "initial";
-//   document.getElementById("3-floors").style.display = "none";
-//   let countStationsFF = 0, countStationsSF = 0;
-//     for (let i = 0, len = ss.length; i < len; i++) {
-//         if(ss[i].snumber < 3000  && ss[i].snumber != 2383) {
-//             if(ss[i].saa == 'AVAILABLE'){
-//                 createStationCard(ss[i].snumber, ss[i].stype, "p2", "m2");
-//             } 
-//             if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
-//                 countStationsFF++;
-//             }
-//         }
-//         if(ss[i].snumber > 3000  && ss[i].snumber != 3383) {
-//             if(ss[i].saa == "AVAILABLE") {
-//                 createStationCard(ss[i].snumber, ss[i].stype, "p3", "m2");
-//             }
-//             if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
-//                 countStationsSF++;
-//             }
-//         }
-//     }
-//     document.getElementById("countStationsFF").textContent = countStationsFF;
-//     document.getElementById("countStationsSF").textContent = countStationsSF;
-// }
-
-// function createOneToThreeFloors(ss) {
-//   removeAllChildNodes(p3_3floors);
-//   removeAllChildNodes(p2_3floors);
-//   removeAllChildNodes(p4_3floors);
-//   document.getElementById("2-floors").style.display = "none";
-//   document.getElementById("3-floors").style.display = "initial"
-//   let countStationsFF = 0, countStationsSF = 0, countStationsTF = 0;
-//   for (let i = 0, len = ss.length; i < len; i++) {
-//     if(ss[i].snumber < 3000 ) {
-//         if(ss[i].saa == 'AVAILABLE') {
-//             createStationCard(ss[i].snumber, ss[i].stype, "p2-3floors", "m2");
-//         }
-//         if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
-//             countStationsFF++;
-//         }
-//     } else if(ss[i].snumber > 3000 && ss[i].snumber < 4000) {
-//         if(ss[i].saa == 'AVAILABLE') {
-//             createStationCard(ss[i].snumber, ss[i].stype, "p3-3floors", "m2");
-//         }
-//         if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
-//             countStationsTF++;
-//         }
-//     } else if(ss[i].snumber > 4000 && ss[i].snumber < 5000) {
-//         if(ss[i].saa == 'AVAILABLE') {
-//             createStationCard(ss[i].snumber, ss[i].stype, "p4-3floors", "m2");
-//         }
-//         if(ss[i].smode.trim() == "Simple Bin Count Generic" || ss[i].smode.trim() == "Simple Record Count Generic" || ss[i].smode.trim() == "Cycle Count Generic") {
-//             countStationsSF++;
-//         }
-//     }
-      
-//   }
-//   document.getElementById("countStationsFF").textContent = countStationsFF;
-//   document.getElementById("countStationsSF").textContent = countStationsSF;
-//   document.getElementById("countStationsTF").textContent = countStationsTF;
-//   extraFloor.style.display = "initial"
-// }
-

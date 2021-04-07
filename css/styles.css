@@ -4,6 +4,7 @@ body {
 
 #app {
   padding: 0 20px;
+  margin: auto;
 }
 
 #intro {
@@ -59,6 +60,10 @@ body {
 
 .border-right {
   border-right: 3px solid black;
+}
+
+.border-left {
+  border-left: 3px solid black;
 }
 
 .p3-half {

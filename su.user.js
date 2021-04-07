@@ -52,7 +52,7 @@ const fcs = [
     },
     {
         id: 'LCY2',
-        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(LBA3)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+        data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(LCY2)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
     },
     {
         id: 'KTW3',
@@ -104,10 +104,6 @@ const fcs = [
     },
 ]
 
-const FC_TWO_FLOORS = ['BRS1', 'DUS4', 'EMA1', 'LTN4', 'MAN2', 'MAN3', 'MME1', 'PAD1'];
-const FC_ONE_TO_THREE_FLOORS = ['EMA2', 'HAM2'];
-const FC_TWO_TO_FOUR_FLOORS = ['KTW3', 'MAN1', 'MME2'];
-
 let fc_id = getArSite();
 
 //gets the link
@@ -142,52 +138,42 @@ function parseResponse(rspObj) {
         return;
     }
     var st = rspObj.response;
-    var old = JSON.stringify(st).replace(/null/g, '"#"'); //convert to JSON string
-    st = JSON.parse(old); //convert back to array
+    if (fc_id != 'TRN1') {
+      //convert to JSON string after converting the received obj back to array
+      st = JSON.parse(JSON.stringify(st).replace(/null/g, '"#"')); 
+    }
     document.getElementById("ar-location").textContent = `at ${st.data[1].yValue}`;
     document.getElementById('fc-id').textContent = st.data[1].yValue;
-    var dataSize = st.data.length;
-    var ss = [];
-    var i = 0;
+    const dataSize = st.data.length;
+    const ss = [];
+    let i = 0;
     while (i < dataSize) {
-        var sfloor = st.data[i + 2].yValue;
-        var snumber = st.data[i + 3].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '').trim();
-        var slogin = st.data[i + 4].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '');
-        var saa = st.data[i + 5].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '');
-        var stype = st.data[i + 6].yValue;
-        var sopmode = st.data[i + 7].yValue;
-        var smode = st.data[i + 8].yValue;
-        var sversion = st.data[i + 9].yValue;
-        var sidle = st.data[i + 10].yValue;
-        var stimein = st.data[i + 11].yValue;
+        const sfloor = st.data[i + 2].yValue;
+        const snumber = st.data[i + 3].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '').trim();
+        const slogin = st.data[i + 4].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '');
+        const saa = st.data[i + 5].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '');
+        let stype = st.data[i + 6].yValue;
+        // const sopmode = st.data[i + 7].yValue;
+        const smode = st.data[i + 8].yValue;
+        const sversion = st.data[i + 9].yValue;
+        // const sidle = st.data[i + 10].yValue;
+        const stimein = st.data[i + 11].yValue;
         if (sversion.includes("IDS")) {
             stype = "Nike";
         }
-        var sdata = { sfloor, snumber, slogin, saa, stype, sopmode, smode, sversion, sidle, stimein };
+        const sdata = { sfloor, snumber, slogin, saa, stype, smode, stimein };
         ss.push(sdata);
         i = i + 12;
     }
     JSON.stringify(ss);
 
     // console.table(ss);
-    if(FC_TWO_FLOORS.includes(fc_id)) {
-        createBuildingFloors(ss, 2, 3, 2);
-    } else if(FC_ONE_TO_THREE_FLOORS.includes(fc_id)) {
-        createBuildingFloors(ss, 1, 3, 3);
-    } else if (FC_TWO_TO_FOUR_FLOORS.includes(fc_id)) {
-      createBuildingFloors(ss, 2, 4, 3);
-    }
+    createAppSchema(ss);
+    
 }
 
 function reportAJAX_Error(rspObj) {
-    // console.error(`scrpt => Error ${rspObj.status}!  ${rspObj.statusText} contact @tudosm`);
     alert("Choose your FC and refresh the page or contact @tudosm")
 }
 
-// var myDiv = document.querySelector("#loadSU");
-
-// if (myDiv) {
-//     myDiv.addEventListener("click", loadSU, false);
-// }
-
-// fetchStations();
+fetchStations();
