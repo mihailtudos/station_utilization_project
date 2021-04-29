@@ -1,4 +1,6 @@
+
 # Station utilization project
+
 This is an internal project intended to show available stations within an AR site. 
 
 How it works:
@@ -11,6 +13,7 @@ Benefits:
 - Reduced ToT (see it, take it)
 - Allows to keep 2m social distancing as the AAs don’t need to approach a team lead or AM anymore to request a new station 
 - Improved fast start (grab scanner, check available station, go)
+
 - Improve availability and sustainability (no need for someone to be at the desk all day long just to issue a new station) therefore the management team could tackle more important aspects of the business and engage with their teams 
 
 At the moment the app supports the following AR FCs stites:
@@ -37,3 +40,4 @@ At the moment the app supports the following AR FCs stites:
 •	TRN1
 •	BCN1
 •	SVQ1
+
