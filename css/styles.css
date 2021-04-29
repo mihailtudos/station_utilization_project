@@ -46,8 +46,14 @@ body {
 /* Station cards */
 .card {
   border-radius: 5px;
-  padding: 0 15px;
   background-color: #00E676;
+  height: 100px;
+}
+
+.clear-margin {
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .card:hover {

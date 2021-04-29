@@ -130,7 +130,7 @@ function createStationCard(sNumber, sType, sTimer, floor, noFloors){
 
   //inner div (card body)
   const innerDiv = document.createElement("div");
-  innerDiv.classList.add("hoverable", "card");
+  innerDiv.classList.add("hoverable", "card", "clear-margin");
   if (sTimer > 10) {
     innerDiv.classList.add("med-timer");
   }
@@ -156,7 +156,7 @@ function buildFloorHeader(start, end, noFloors) {
 
   for(; start <= end; start++) {
     let colDiv = document.createElement('div');
-    colDiv.className = `col m${12/numberOfFloors}`;
+    colDiv.className = `col m${12/numberOfFloors} clear-margin`;
     let floorTitle = document.createElement('h3');
     floorTitle.textContent = `P${start}`;
     colDiv.append(floorTitle);
