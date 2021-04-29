@@ -102,7 +102,7 @@ const fcs = [
         id: 'SVQ1',
         data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(SVQ1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
     },
-]
+];
 
 let fc_id = getArSite();
 
@@ -142,6 +142,12 @@ function parseResponse(rspObj) {
       //convert to JSON string after converting the received obj back to array
       st = JSON.parse(JSON.stringify(st).replace(/null/g, '"#"')); 
     }
+    let prevStationsNumbers = null;
+    let prevStationsStations = null;
+    if (localStorage.hasOwnProperty('stations')) {
+      prevStationsNumbers = JSON.parse(localStorage.getItem('stations')).map(item => item.snumber);
+      prevStationsStations = JSON.parse(localStorage.getItem('stations'));
+    }
     document.getElementById("ar-location").textContent = `at ${st.data[1].yValue}`;
     document.getElementById('fc-id').textContent = st.data[1].yValue;
     const dataSize = st.data.length;
@@ -150,29 +156,34 @@ function parseResponse(rspObj) {
     while (i < dataSize) {
         const sfloor = st.data[i + 2].yValue;
         const snumber = st.data[i + 3].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '').trim();
-        const slogin = st.data[i + 4].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '');
+        // const slogin = st.data[i + 4].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '');
         const saa = st.data[i + 5].yValue.replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, '');
         let stype = st.data[i + 6].yValue;
         // const sopmode = st.data[i + 7].yValue;
-        const smode = st.data[i + 8].yValue;
+        // const smode = st.data[i + 8].yValue;
         const sversion = st.data[i + 9].yValue;
         // const sidle = st.data[i + 10].yValue;
-        const stimein = st.data[i + 11].yValue;
+        // const stimein = st.data[i + 11].yValue;
         if (sversion.includes("IDS")) {
             stype = "Nike";
         }
         if (saa === 'AVAILABLE') {
-          const sdata = { sfloor, snumber, slogin, saa, stype, smode, stimein };
+          let timer = 0;
+          if (prevStationsStations) {
+            const index = prevStationsNumbers.indexOf(snumber);
+           if (index != -1) {
+            timer = prevStationsStations[index].timer + 1;
+           }
+          }
+          const sdata = { sfloor, snumber, saa, stype, timer };
           ss.push(sdata);
         }
-        
         i = i + 12;
     }
-    JSON.stringify(ss);
-
+    const stringStations = JSON.stringify(ss);
+    localStorage.setItem('stations', stringStations);
     // console.table(ss);
     createAppSchema(ss);
-    
 }
 
 function reportAJAX_Error(rspObj) {

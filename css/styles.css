@@ -54,6 +54,14 @@ body {
   cursor: pointer;
 }
 
+.med-timer {
+  background: #f5cc14
+}
+
+.high-timer {
+  background: #ff330f
+}
+
 .remove-space {
   margin-bottom: 0;
 }

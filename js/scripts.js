@@ -9,6 +9,7 @@ let numberOfFloors;
 
 function setLocalArId(ar_id) {
   localStorage.removeItem('ar_id');
+  localStorage.removeItem('stations');
   localStorage.setItem('ar_id', ar_id);
   document.getElementById('fc-id').textContent = ar_id;
   location.reload();
@@ -108,17 +109,16 @@ function appendStations(stations) {
 
   for (let i = 0; i < numberOfFloors; i++) {
     let floorID = document.getElementById(floorsAndLevels[i]);
-    console.log(floorID);
     stations.forEach(station => {
       if (station.sfloor === floorID.id) {
-        createStationCard(station.snumber, station.stype, floorID.id, numberOfFloors);
+        createStationCard(station.snumber, station.stype, station.timer, floorID.id, numberOfFloors);
       }
     })
   }
 }
 
 // creates a station card
-function createStationCard(sNumber, sType, floor, noFloors){
+function createStationCard(sNumber, sType, sTimer, floor, noFloors){
   //station number paragraph
   const paragraph = document.createElement("p");
   paragraph.classList.add("flow-text");
@@ -126,11 +126,17 @@ function createStationCard(sNumber, sType, floor, noFloors){
 
   //station type paragraph
   const station_type = document.createElement("p");
-  station_type.textContent = sType;
+  station_type.textContent = `${sType} - ${sTimer} min`;
 
   //inner div (card body)
   const innerDiv = document.createElement("div");
   innerDiv.classList.add("hoverable", "card");
+  if (sTimer > 10) {
+    innerDiv.classList.add("med-timer");
+  }
+  if (sTimer > 20) {
+    innerDiv.classList.add("high-timer");
+  }
   innerDiv.appendChild(paragraph);
   innerDiv.appendChild(station_type);
   //outer div (card container div)
@@ -183,7 +189,7 @@ function createBuildingFloors(ss, start, end, noFloors) {
   buildFloors(start, end, numberOfFloors);
 
   for (let i = 0, len = ss.length; i < len; i++) {
-    if (ss[i].saa == 'AVAILABLE') {
+    if (ss[i].saa === 'AVAILABLE') {
       if(ss[i].snumber > 1000 && ss[i].snumber < 2000) {
         addStationOnP1(ss[i], numberOfFloors);
       }
