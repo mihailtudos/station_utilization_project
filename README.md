@@ -1,4 +1,4 @@
-# station_utilization_project
+# Station utilization project
 This is an internal project intended to show available stations within an AR site. 
 
 How it works:
