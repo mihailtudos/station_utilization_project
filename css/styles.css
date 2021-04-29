@@ -1,41 +1,105 @@
+body {
+  box-sizing: border-box;
+}
+
+#app {
+  padding: 0 20px;
+  margin: auto;
+}
+
 #intro {
-    margin-top: 2%;
+  margin-top: 2%;
 }
-.round { 
-    border-radius: 5px; 
+
+.floor-header {
+  display: flex;
+  justify-content: space-between;
 }
+
+.floor-title-div {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.floor-title {
+  margin: 0;
+}
+/* Container floors */
+#floors-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ar-floor {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 20px;
+  flex: 0 0 50%;
+  padding: 10px;
+}
+
+.floor-divider {
+  border-right: 3px solid black;
+}
+
+/* Station cards */
+.card {
+  border-radius: 5px;
+  padding: 0 15px;
+  background-color: #00E676;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
 .remove-space {
-    margin-bottom: 0;
-    
+  margin-bottom: 0;
 }
+
+.border-right {
+  border-right: 3px solid black;
+}
+
+.border-left {
+  border-left: 3px solid black;
+}
+
 .p3-half {
-    border-left: 3px solid black;
+  border-left: 3px solid black;
 }
 
 .p4-half {
-    border-left: 3px solid black;
+  border-left: 3px solid black;
 }
 
 .text-flow2 {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 .fixed-action-btn {
-    top: 2px;
+  top: 2px;
 }
 
 #brand-logo {
-    font-size: 4rem;
+  font-size: 4rem;
 }
 
 .text-green {
-    color: green;
+  color: green;
 }
 
 .hide_default {
-    display: none;
+  display: none;
 }
 
 .text-end {
-    text-align: right;
+  text-align: right;
 }
+
+#p1, #p2, #p3, #p4 {
+  height:100vh;
+  overflow: hidden;
+}
+
