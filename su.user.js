@@ -126,9 +126,9 @@ function fetchStations() {
         ontimeout: reportAJAX_Error
     });
     // refreshing rate set ot 1 min
-    let timer;
+    var timer;
     clearTimeout(timer);
-    timer = setTimeout(fetchStations, 60000);//set to 1 min
+    timer = setTimeout(fetchStations, 1 * 60000);;//set to 1 min
 };
 
 function parseResponse(rspObj) {
@@ -161,8 +161,11 @@ function parseResponse(rspObj) {
         if (sversion.includes("IDS")) {
             stype = "Nike";
         }
-        const sdata = { sfloor, snumber, slogin, saa, stype, smode, stimein };
-        ss.push(sdata);
+        if (saa === 'AVAILABLE') {
+          const sdata = { sfloor, snumber, slogin, saa, stype, smode, stimein };
+          ss.push(sdata);
+        }
+        
         i = i + 12;
     }
     JSON.stringify(ss);
