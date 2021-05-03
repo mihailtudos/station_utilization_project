@@ -117,6 +117,18 @@ function appendStations(stations) {
   }
 }
 
+const getTimer = (sTimer) => {
+  let time = 0;
+  if (sTimer > 60) {
+    time = Math.floor(sTimer/60).toFixed(0).toString();
+    time += 'h'
+  } else {
+    time = sTimer.toString() + 'min';
+  }
+
+  return time; 
+}
+
 // creates a station card
 function createStationCard(sNumber, sType, sTimer, floor, noFloors){
   //station number paragraph
@@ -126,7 +138,7 @@ function createStationCard(sNumber, sType, sTimer, floor, noFloors){
 
   //station type paragraph
   const station_type = document.createElement("p");
-  station_type.textContent = `${sType} - ${sTimer} min`;
+  station_type.textContent = `${sType} - ${getTimer(sTimer)} `;
 
   //inner div (card body)
   const innerDiv = document.createElement("div");
