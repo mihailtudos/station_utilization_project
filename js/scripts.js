@@ -120,8 +120,12 @@ function appendStations(stations) {
 const getTimer = (sTimer) => {
   let time = 0;
   if (sTimer > 60) {
-    time = Math.floor(sTimer/60).toFixed(0).toString();
-    time += 'h'
+    if (sTimer > 1440) {
+      time = '+24h'
+    } else {
+      time = Math.floor(sTimer/60).toFixed(0).toString();
+      time += 'h'
+    }
   } else {
     time = sTimer.toString() + 'min';
   }
@@ -138,7 +142,7 @@ function createStationCard(sNumber, sType, sTimer, floor, noFloors){
 
   //station type paragraph
   const station_type = document.createElement("p");
-  station_type.textContent = `${sType} - ${getTimer(sTimer)} `;
+  station_type.textContent = `${sType} | ${getTimer(sTimer)} `;
 
   //inner div (card body)
   const innerDiv = document.createElement("div");
@@ -165,81 +169,4 @@ function createStationCard(sNumber, sType, sTimer, floor, noFloors){
   //get the floor to add created card
   const selectedFloor = document.getElementById(floor);
   if (selectedFloor) selectedFloor.appendChild(cardContainer);
-}
-
-function buildFloorHeader(start, end, noFloors) {
-  const containerDiv = document.getElementById('2-floors');
-  const row = document.createElement('div');
-  row.className = 'row center remove-space';
-
-  for(; start <= end; start++) {
-    let colDiv = document.createElement('div');
-    colDiv.className = `col m${12/numberOfFloors} clear-margin`;
-    let floorTitle = document.createElement('h3');
-    floorTitle.textContent = `P${start}`;
-    colDiv.append(floorTitle);
-    row.append(colDiv);
-  }
-  containerDiv.appendChild(row);
-}
-
-function buildFloors(start, end, noFloors) {
-  const containerDiv = document.createElement('div');
-  containerDiv.id = '2-floors';
-  app.appendChild(containerDiv);
-  buildFloorHeader(start, end, numberOfFloors);
-  const row = document.createElement('div');
-  row.className = 'row';
-
-  for(; start <= end; start++) {
-    let colDiv = document.createElement('div');
-    colDiv.className = `col m${12/numberOfFloors}`;
-    colDiv.id = `p${start}`;
-    start < end ? colDiv.classList.add('border-right') : ''; 
-    row.append(colDiv);
-  }
-  containerDiv.appendChild(row);
-}
-
-function createBuildingFloors(ss, start, end, noFloors) {
-  data = ss;
-  app.innerHTML = '';
-  buildFloors(start, end, numberOfFloors);
-
-  for (let i = 0, len = ss.length; i < len; i++) {
-    if (ss[i].saa === 'AVAILABLE') {
-      if(ss[i].snumber > 1000 && ss[i].snumber < 2000) {
-        addStationOnP1(ss[i], numberOfFloors);
-      }
-
-      if(ss[i].snumber >= 2000 && ss[i].snumber < 3000  && ss[i].snumber != 2383) {
-        addStationOnP2(ss[i], numberOfFloors);
-      }
-
-      if(ss[i].snumber >= 3000 && ss[i].snumber < 4000  && ss[i].snumber != 3383) {
-        addStationOnP3(ss[i], numberOfFloors);
-      }
-
-      if(ss[i].snumber >= 4000 && ss[i].snumber < 5000) {
-        addStationOnP4(ss[i], numberOfFloors);
-      }
-    }
-  }
-}
-
-
-function addStationOnP1({snumber, stype}, noFloors) {
-  createStationCard(snumber, stype, "p1", numberOfFloors);
-}
-
-function addStationOnP2({snumber, stype}, noFloors) {
-  createStationCard(snumber, stype, "p2", numberOfFloors);
-}
-
-function addStationOnP3({snumber, stype}, noFloors) {
-  createStationCard(snumber, stype, "p3", numberOfFloors);
-}
-
-function addStationOnP4({snumber, stype}, noFloors) {
-  createStationCard(snumber, stype, "p4", numberOfFloors);
 }

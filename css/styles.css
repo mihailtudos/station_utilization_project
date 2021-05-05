@@ -49,13 +49,22 @@ body {
   border-radius: 5px;
   background-color: #00E676;
   height: 100px;
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flow-text {
+  margin: 0;
+  padding: 0;
 }
 
 .clear-margin {
   width: 100%;
   padding: 0;
   margin: 0;
+  margin-bottom: 20px;
 }
 
 .card:hover {
@@ -121,6 +130,11 @@ body {
 
 .bordered {
   border: 3px solid black;
+}
+
+.card p {
+  padding: 0;
+  margin: 0;
 }
 
 .card__badge {
