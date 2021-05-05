@@ -149,6 +149,12 @@ function createStationCard(sNumber, sType, sTimer, floor, noFloors){
   if (sTimer > 20) {
     innerDiv.classList.add("high-timer");
   }
+  if (sType === 'Universal' || sType === 'Nike') {
+    let badge = document.createElement('span');
+    badge.textContent = '!';
+    badge.classList.add('card__badge');
+    innerDiv.appendChild(badge);
+  }
   innerDiv.appendChild(paragraph);
   innerDiv.appendChild(station_type);
   //outer div (card container div)

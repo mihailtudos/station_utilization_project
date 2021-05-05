@@ -187,7 +187,7 @@ function parseResponse(rspObj) {
 }
 
 function reportAJAX_Error(rspObj) {
-    alert("Choose your FC and refresh the page or contact @tudosm")
+    alert("Please, choose your FC and refresh the page or contact @tudosm")
 }
 
 fetchStations();
