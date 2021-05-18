@@ -19,6 +19,10 @@ const fcs = [
         data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(BRS1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
     },
     {
+      id: 'BRS2',
+      data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(BRS2)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
         id: 'EMA1',
         data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(EMA1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
     },
@@ -55,6 +59,10 @@ const fcs = [
         data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(LCY2)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
     },
     {
+      id: 'LCY3',
+      data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(LCY3)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
         id: 'KTW3',
         data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(KTW3)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
     },
@@ -77,6 +85,10 @@ const fcs = [
     {
         id: 'PAD1',
         data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(PAD1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
+    {
+      id: 'POZ2',
+      data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(POZ2)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
     },
     {
         id: 'ORY4',
