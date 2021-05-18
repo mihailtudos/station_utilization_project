@@ -114,6 +114,10 @@ const fcs = [
         id: 'SVQ1',
         data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(SVQ1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
     },
+    {
+      id: 'NCL1',
+      data_link: "https://roboscout.amazon.com/view_plot_data/?sites=(NCL1)&instance_id=0&object_id=20672&BrowserTZ=Europe%2FLondon&app_name=RoboScout",
+    },
 ];
 
 let fc_id = getArSite();
